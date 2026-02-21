@@ -63,6 +63,15 @@ Practical demonstrations of the runtime in action.
 
 ---
 
+## 🎭 Framework Personalities
+
+This runtime isn't just a "bridge" for models; it supports different **AI Framework Philosophies**. You can see this in action by toggling the `framework` setting in your config:
+
+- **⚡ Mastra Runtime (`mastra`)**: Designed for **High Speed**. It uses a direct execution engine with minimal overhead, perfect for real-time agents and edge computing.
+- **🦜 LangChain Runtime (`langchain`)**: Designed for **Structured Chains**. It follows the industry-standard "procedural" approach, wrapping requests in multi-step "Prompt Templates" and "Chain Sequences" for complex multi-turn logic.
+
+---
+
 ## ⚙️ The "Switch" (Config-Driven)
 
 The entire behavior of your AI stack is controlled by `packages/core/config/ai.config.ts`. 

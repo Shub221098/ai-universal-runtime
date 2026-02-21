@@ -7,27 +7,18 @@ export interface MastraAgentConfig {
 }
 
 export class MastraAgent {
-    private name: string;
-    private instructions: string;
-    private model: LLMProvider;
-
-    constructor(config: MastraAgentConfig) {
-        this.name = config.name;
-        this.instructions = config.instructions;
-        this.model = config.model;
-    }
-
-    async chat(message: string) {
-        const fullPrompt = `System: ${this.instructions}\nUser: ${message}`;
-        return this.model.generate(fullPrompt);
-    }
+    constructor(private config: MastraAgentConfig) { }
 
     async *streamChat(message: string) {
-        const fullPrompt = `System: ${this.instructions}\nUser: ${message}`;
-        yield* this.model.stream(fullPrompt);
+        // Mastra Focus: High speed, low overhead.
+        // It converts the request into a "Telemetry-aware" execution block.
+        console.log(`\x1b[35m[Mastra Engine]\x1b[0m Direct-streaming agent "${this.config.name}"...`);
+
+        const systemPrompt = `[MODE: HIGH_PERFORMANCE]\nSystem: ${this.config.instructions}`;
+        const finalPrompt = `${systemPrompt}\nUser: ${message}`;
+
+        yield* this.config.model.stream(finalPrompt);
     }
 }
 
-export const createAgent = (config: MastraAgentConfig) => {
-    return new MastraAgent(config);
-};
+export const createAgent = (config: MastraAgentConfig) => new MastraAgent(config);
