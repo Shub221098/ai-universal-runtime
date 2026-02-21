@@ -2,5 +2,12 @@ import { LLMConfig, LLMResponse } from './types';
 
 export abstract class LLMProvider {
     abstract generate(prompt: string, config?: Partial<LLMConfig>): Promise<LLMResponse>;
-    abstract stream(prompt: string, config?: Partial<LLMConfig>): AsyncIterable<string>;
+    abstract *stream(prompt: string, config?: Partial<LLMConfig>): AsyncIterable<string>;
+
+    /**
+     * Decorator pattern for adding middleware/capabilities
+     */
+    use(middleware: (provider: LLMProvider) => LLMProvider): LLMProvider {
+        return middleware(this);
+    }
 }
