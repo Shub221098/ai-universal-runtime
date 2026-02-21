@@ -30,18 +30,23 @@ The runtime sits between your actual application and the AI providers, acting as
 
 ## ⚙️ The "Switch" (Config-Driven)
 
-The entire behavior of your AI stack is controlled by `packages/core/config/ai.config.ts`. It’s as simple as turning a dial:
+The entire behavior of your AI stack is controlled by `packages/core/config/ai.config.ts`. It’s as simple as turning a dial.
 
-```typescript
-// To switch your entire app from Local to OpenAI:
-export const aiConfig = {
-  llm: { 
-    provider: "openai", // Just change this
-    model: "gpt-4o" 
-  },
-  // Everything else updates automatically!
-};
+---
+
+## 🏗️ Technical Highlights (Elite Features)
+
+### 🐳 One-Command Infrastructure
+Stop wasting time installing databases and servers. The included `docker-compose.yml` spins up a full production-ready AI stack (Qdrant + Ollama) in seconds.
+```bash
+docker-compose up -d
 ```
+
+### 📊 Real-time Observability
+Every call to an LLM is automatically wrapped in our **Observability Middleware**. It tracks:
+- **Latency**: Total time taken for the response.
+- **TTFT**: Time To First Token for streaming responses.
+- **Usage**: Token consumption for cost monitoring.
 
 ---
 
