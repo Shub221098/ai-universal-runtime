@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "rag:demo": "npx tsx apps/rag-demo/query.ts",
-    "ingest": "npx tsx apps/rag-demo/ingest.ts",
-    "dashboard": "npx tsx apps/dashboard/view-qdrant.ts"
+    "demo": "npx tsx apps/chat/query.ts",
+    "ingest": "npx tsx apps/rag-chat/ingest.ts",
+    "dashboard": "npx tsx apps/dashboard/view-qdrant.ts",
+    "rag:demo": "npx tsx apps/rag-chat/professional-demo.ts"
   },
   "keywords": [],
   "author": "",

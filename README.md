@@ -50,7 +50,8 @@ These are the "Plugs" for different services.
 
 ### 3. `apps/` (The Frontline)
 Practical demonstrations of the runtime in action.
-- **`rag-demo`**: A full "Talk to your data" implementation showing how search, memory, and chat work together.
+- **`chat`**: A simple, fast chat implementation using base AI knowledge.
+- **`rag-chat`**: A full "Talk to your data" implementation showing how search, memory, and chat work together.
 - **`dashboard`**: A CLI tool to visualize what's happening inside your AI database.
 
 ---
@@ -89,21 +90,44 @@ export const aiConfig = {
 
 ---
 
+---
+
+## 🚦 The Two Execution Flows
+
+This repository demonstrates the two fundamental ways to build AI applications:
+
+### 1️⃣ Simple Chat (Base AI)
+- **Folder**: `apps/chat/`
+- **Concept**: Uses the AI's "General Knowledge" (what it was trained on). It’s fast and covers a wide range of topics, but doesn't know about your private data.
+- **Run it**: `npm run demo "Who is the President?"`
+
+### 2️⃣ Professional RAG (Knowledge Injection)
+- **Folder**: `apps/rag-chat/`
+- **Concept**: The "Senior Engineer" approach. It first cleans your documents (**Semantic Chunker**), remembers them (**Vector Storage**), and then answers questions based **strictly on your data**.
+- **Run it**: `npm run rag:demo`
+
+---
+
 ## 🚀 Quick Start (Try It Live)
 
 ### 1. Setup
 ```bash
 npm install
-docker-compose up -d  # Spins up your local AI Database & Server automatically!
+docker-compose up -d  # Spins up your local Qdrant Vector DB & Ollama automatically!
 ```
 
 ### 2. Run the Demos
-- **AI Chat Demo (with Real-time Metrics!)**:
+- **The RAG Masterclass (Professional Flow)**:
   ```bash
-  npm run rag:demo "What are the benefits of this universal runtime?"
+  npm run rag:demo
   ```
 
-- **Data Dashboard**: See what's currently stored in your AI's "memory."
+- **Simple AI Chat**:
+  ```bash
+  npm run demo "What are the benefits of this universal runtime?"
+  ```
+
+- **Data Dashboard**: See what's currently stored in your AI's "Memory."
   ```bash
   npm run dashboard
   ```
