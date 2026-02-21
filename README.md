@@ -11,11 +11,11 @@ Imagine you bought a high-end TV, but you could only ever use one specific remot
 
 ---
 
-## 🏗️ The "Guardians" Architecture (New!)
+### 1. 🏗️ The "Guardians" Architecture (New!)
 
 To make our AI runtime production-ready, we've added a **"Smart Pipeline."** Every request you send to an AI doesn't just go straight to the provider; it passes through three **Guardians** that protect your application:
 
-![Architecture Diagram](docs/architecture.svg)
+![Architecture Diagram](./docs/architecture.svg)
 
 1.  🛡️ **The Retry Guardian**: AI APIs can be "glitchy" (busy, slow, or temporary errors). This guardian automatically catches those glitches and retries the request instantly so your users never see an error message.
 2.  📊 **The Metrics Guardian**: Ever wonder why an AI is feeling slow? This guardian tracks exactly how many milliseconds every part of the process takes, giving you a "speedometer" for your AI.
