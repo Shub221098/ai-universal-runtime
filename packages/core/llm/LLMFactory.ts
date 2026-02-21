@@ -5,6 +5,7 @@ import { OllamaAdapter } from '../../adapters/llm/ollama';
 import { withObservability } from './ObservabilityMiddleware';
 import { withRetry } from './RetryMiddleware';
 import { withCostGuardian } from './CostGuardianMiddleware';
+import { withCache } from './CacheMiddleware';
 
 export class LLMFactory {
     static create(providerName?: string): LLMProvider {
@@ -25,6 +26,7 @@ export class LLMFactory {
         // Professional Piped Middleware Pattern
         return adapter
             .use(withRetry(2))
+            .use(withCache())
             .use(withObservability(provider))
             .use(withCostGuardian());
     }

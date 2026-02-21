@@ -44,19 +44,39 @@ async function professionalWalkthrough() {
     const context = searchResults.map((r: any) => r.payload.text).join('\n');
     console.log(`📖 Found relevant context in database.`);
 
+    // FRAMEWORK SELECTION
+    let agent: any;
+    if (aiConfig.framework === 'mastra') {
+        const { createAgent } = require('../../packages/mastra-runtime/createAgent');
+        agent = createAgent({
+            name: "Mastra-Universal-Agent",
+            instructions: "You are a helpful assistant. Use the provided context to answer questions.",
+            model: llm
+        });
+        console.log(`⚡ \x1b[35mMastra Runtime\x1b[0m initialized as the primary agent framework.`);
+    } else {
+        const { createLangChainAgent } = require('../../packages/langchain-runtime/createAgent');
+        agent = createLangChainAgent({
+            name: "LangChain-Universal-Chain",
+            instructions: "You are a specialized LangChain agent research assistant.",
+            model: llm
+        });
+        console.log(`🦜 \x1b[94mLangChain Runtime\x1b[0m initialized as the primary agent framework.`);
+    }
+
     const augmentedPrompt = `
 Context from knowledge base:
 ${context}
 
 User Question: ${userQuery}
 
-Answer the question strictly based on the provided context. If you don't know, say so.
+Answer the question strictly based on the provided context.
 `;
 
-    console.log(`📡 Asking LLM via \x1b[32mAgile Middleware Pipeline\x1b[0m...\n`);
+    console.log(`📡 Asking AI via \x1b[32mAgile Middleware Pipeline\x1b[0m...\n`);
 
     console.log(`\x1b[1m--- AI RESPONSE ---\x1b[0m`);
-    for await (const chunk of llm.stream(augmentedPrompt)) {
+    for await (const chunk of agent.streamChat(augmentedPrompt)) {
         process.stdout.write(`\x1b[37m${chunk}`);
     }
     console.log(`\x1b[0m\n`);

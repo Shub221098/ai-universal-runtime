@@ -6,19 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "rag:demo": "npx tsx apps/rag-demo/query.ts",
-    "ingest": "npx tsx apps/rag-demo/ingest.ts",
-    "dashboard": "npx tsx apps/dashboard/view-qdrant.ts"
+    "demo": "npx tsx apps/chat/query.ts",
+    "ingest": "npx tsx apps/rag-chat/ingest.ts",
+    "dashboard": "npx tsx apps/dashboard/view-qdrant.ts",
+    "rag:demo": "npx tsx apps/rag-chat/professional-demo.ts",
+    "server": "npx tsx apps/api-server/server.ts",
+    "eval": "npx tsx apps/rag-chat/evaluate.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "express": "^5.2.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
+    "@types/express": "^5.0.6",
     "@types/node": "^20.0.0",
     "typescript": "^5.0.0"
   }
