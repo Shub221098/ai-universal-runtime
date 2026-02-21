@@ -20,6 +20,17 @@ To make our AI runtime production-ready, we've added a **"Smart Pipeline."** Eve
 1.  🛡️ **The Retry Guardian**: AI APIs can be "glitchy" (busy, slow, or temporary errors). This guardian automatically catches those glitches and retries the request instantly so your users never see an error message.
 2.  📊 **The Metrics Guardian**: Ever wonder why an AI is feeling slow? This guardian tracks exactly how many milliseconds every part of the process takes, giving you a "speedometer" for your AI.
 3.  💰 **The Cost Guardian**: AI isn't free. This guardian estimates the cost of every single question you ask **before** you get the bill, helping you stay within budget.
+4.  💾 **The Intelligent Cache**: Remembers previous answers to identical questions. Saves **100% of the cost** and returns the answer in **0ms** the second time.
+
+---
+
+## 🏗️ Production Excellence (New!)
+
+We've upgraded this runtime to be a deployable product:
+
+- 🧪 **RAG Evaluator**: A built-in "AI Judge" that rates its own answers for accuracy and faithfulness to the data.
+- 🌐 **API Server**: A standard REST API (Express) that allows your AI brain to be connected to any website or mobile app.
+- 🤖 **DevOps Ready**: Automated GitHub Actions that test and build your code every time you save.
 
 ---
 
@@ -121,6 +132,18 @@ docker-compose up -d  # Spins up your local Qdrant Vector DB & Ollama automatica
   ```bash
   npm run rag:demo
   ```
+
+- **RAG Evaluation**: Test how accurate your AI is.
+  ```bash
+  npm run eval
+  ```
+
+- **API Server**: Start the cloud-ready server (Base Chat + RAG).
+  ```bash
+  npm run server
+  ```
+  - `POST http://localhost:3000/api/chat` (Simple)
+  - `POST http://localhost:3000/api/rag` (Smart Integration)
 
 - **Simple AI Chat**:
   ```bash
