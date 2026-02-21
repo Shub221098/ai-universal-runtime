@@ -1,0 +1,25 @@
+{
+  "name": "ai-universal-runtime",
+  "version": "1.0.0",
+  "description": "Provider-agnostic AI runtime",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "rag:demo": "npx tsx apps/rag-demo/query.ts",
+    "ingest": "npx tsx apps/rag-demo/ingest.ts",
+    "dashboard": "npx tsx apps/dashboard/view-qdrant.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
