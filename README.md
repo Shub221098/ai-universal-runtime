@@ -32,6 +32,37 @@ To make our AI runtime production-ready, we've added a **"Smart Pipeline."** Eve
 
 ---
 
+## 📂 Deep Dive: Project Architecture
+
+The project is structured as a **Monorepo** to keep the core logic strictly separated from the specific "connectors" (Adapters) and the final apps.
+
+### 1. `packages/core` (The Brain)
+This is the heart of the runtime. It defines the "Contracts" (Interfaces) that every AI service must follow.
+- **Factories**: These are the "Dispatchers." When you ask for an LLM, the `LLMFactory` looks at your config and grabs the right adapter.
+- **Middleware Pipeline**: This is where the **Guardians** live. We use a "Pipe" pattern, meaning every request is automatically wrapped in safety layers (Retries -> Metrics -> Cost).
+- **Config**: A single, type-safe Zod schema that validates your entire AI stack at startup.
+
+### 2. `packages/adapters` (The Connectors)
+These are the "Plugs" for different services.
+- **LLM Adapters**: Specific code to talk to OpenAI, Ollama, Anthropic, etc.
+- **Vector Adapters**: Specific code to talk to Qdrant, Pinecone, or local memory.
+- **Embedding Adapters**: Code to translate human text into "AI vectors" using various models.
+
+### 3. `apps/` (The Frontline)
+Practical demonstrations of the runtime in action.
+- **`rag-demo`**: A full "Talk to your data" implementation showing how search, memory, and chat work together.
+- **`dashboard`**: A CLI tool to visualize what's happening inside your AI database.
+
+---
+
+## 🔄 The Data Flow (RAG Journey)
+
+1. **Ingest**: Text is cleaned by the **Semantic Chunker** -> Converted to Vectors by the **Embedding Adapter** -> Stored in **Qdrant**.
+2. **Query**: User asks a question -> Question is vectorized -> **Vector Adapter** finds matching data -> **LLM Adapter** generates an answer using that data.
+3. **Protect**: Every single step is logged by **Metrics** and protected by **Retries**.
+
+---
+
 ## ⚙️ The "Switch" (Config-Driven)
 
 The entire behavior of your AI stack is controlled by `packages/core/config/ai.config.ts`. 
