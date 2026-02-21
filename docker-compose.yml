@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: universal-ai-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: always
+
+  # Ollama Local AI Server
+  # Note: This is set up for CPU. To enable NVIDIA GPU support:
+  # 1. Install NVIDIA Container Toolkit
+  # 2. Add 'deploy' section with 'reservations' for 'gpu'
+  ollama:
+    image: ollama/ollama:latest
+    container_name: universal-ai-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+    restart: always
+
+volumes:
+  qdrant_storage:
+  ollama_storage:
