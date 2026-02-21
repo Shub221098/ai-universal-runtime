@@ -2,7 +2,9 @@ import { aiConfig } from '../config/ai.config';
 import { LLMProvider } from './LLMProvider';
 import { OpenAIAdapter } from '../../adapters/llm/openai';
 import { OllamaAdapter } from '../../adapters/llm/ollama';
-import { ObservabilityMiddleware } from './ObservabilityMiddleware';
+import { withObservability } from './ObservabilityMiddleware';
+import { withRetry } from './RetryMiddleware';
+import { withCostGuardian } from './CostGuardianMiddleware';
 
 export class LLMFactory {
     static create(providerName?: string): LLMProvider {
@@ -20,7 +22,10 @@ export class LLMFactory {
                 throw new Error(`Unsupported LLM provider: ${provider}`);
         }
 
-        // Automatically wrap with observability for analytics
-        return new ObservabilityMiddleware(adapter, provider);
+        // Professional Piped Middleware Pattern
+        return adapter
+            .use(withRetry(2))
+            .use(withObservability(provider))
+            .use(withCostGuardian());
     }
 }

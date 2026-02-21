@@ -10,34 +10,19 @@ export interface ObservabilityMetrics {
 }
 
 export class ObservabilityMiddleware extends LLMProvider {
-    private wrappedProvider: LLMProvider;
-    private providerName: string;
-
-    constructor(provider: LLMProvider, providerName: string) {
+    constructor(
+        private wrappedProvider: LLMProvider,
+        private providerName: string
+    ) {
         super();
-        this.wrappedProvider = provider;
-        this.providerName = providerName;
     }
 
     async generate(prompt: string, config?: Partial<LLMConfig>): Promise<LLMResponse> {
         const start = Date.now();
-
         try {
             const response = await this.wrappedProvider.generate(prompt, config);
             const end = Date.now();
-
-            const metrics: ObservabilityMetrics = {
-                durationMs: end - start,
-                provider: this.providerName,
-                model: config?.modelName || 'unknown',
-                usage: response.usage,
-                timestamp: new Date().toISOString(),
-            };
-
-            // In a real app, you might send this to a database, 
-            // Prometheus, or a logging service like Axiom/Datadog.
-            console.log(`\x1b[90m[METRICS]\x1b[0m ${this.providerName} call took ${metrics.durationMs}ms`);
-
+            console.log(`\x1b[90m[METRICS]\x1b[0m ${this.providerName} call took ${end - start}ms`);
             return response;
         } catch (error) {
             const end = Date.now();
@@ -49,7 +34,6 @@ export class ObservabilityMiddleware extends LLMProvider {
     async *stream(prompt: string, config?: Partial<LLMConfig>): AsyncIterable<string> {
         const start = Date.now();
         let firstTokenTime: number | null = null;
-
         try {
             for await (const chunk of this.wrappedProvider.stream(prompt, config)) {
                 if (firstTokenTime === null) {
@@ -58,7 +42,6 @@ export class ObservabilityMiddleware extends LLMProvider {
                 }
                 yield chunk;
             }
-
             const end = Date.now();
             console.log(`\x1b[90m[METRICS]\x1b[0m Total stream duration: ${end - start}ms`);
         } catch (error) {
@@ -67,3 +50,5 @@ export class ObservabilityMiddleware extends LLMProvider {
         }
     }
 }
+
+export const withObservability = (name: string) => (p: LLMProvider) => new ObservabilityMiddleware(p, name);
